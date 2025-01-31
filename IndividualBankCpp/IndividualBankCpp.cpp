@@ -1,6 +1,8 @@
 #include "Helpers/FunctionalHelper.h"
 #include <clocale>
 #include <iostream>
+
+#include "Entities/BankClient.h"
 using namespace std;
 
 static void menu()
