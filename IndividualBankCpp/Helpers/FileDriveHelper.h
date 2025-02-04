@@ -3,7 +3,7 @@
 class FileDriveHelper
 {
 public:
-    void index();
-    void save();
-    void remove();
+    void read();
+    void write();
+    void removeFromFile();
 };

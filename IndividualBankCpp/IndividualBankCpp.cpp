@@ -1,16 +1,37 @@
-#include "Helpers/FunctionalHelper.h"
 #include <clocale>
 #include <iostream>
-
+#include <vector>
+#include "Helpers/FunctionalHelper.h"
 #include "Entities/BankClient.h"
 using namespace std;
 
-static void menu()
+BankClient initClients[3]{
+    BankClient(0, "Струговщик", "Алексей", "Евгеньевич", "Ул. Пушкина 1/1", "+79999999999",
+               "12345678", "123456789098"),
+    BankClient(1, "Кульпин", "Никита", "Никитович", "Ул. Пушкина 1/2", "+78888888888",
+               "87654321", "890987654321"),
+    BankClient(2, "Никифоров", "Никифор", "Никифорович", "Ул. Пушкина 1/3", "+77777777777",
+               "12121212", "123123123123")
+};
+vector<BankClient> includedDb;
+void menu();
+
+void main()
 {
-    setlocale(LC_ALL, "Rus"); // NOLINT(cert-err33-c, concurrency-mt-unsafe)
+    setlocale(LC_ALL, "ru-RU"); // NOLINT(cert-err33-c, concurrency-mt-unsafe)
+    includedDb.push_back(initClients[0]);
+    includedDb.push_back(initClients[1]);
+    includedDb.push_back(initClients[2]);
+    menu();
+}
+
+void menu()
+{
     cout << "База клиентов банка \"СPPB\":\n"
         "1 - Для просмотра списка клиентов.\n"
         "2 - Для добавления нового клиента.\n"
+        "3 - Для поиска клиента по критерию.\n"
+        "4 - Для удаления клиента.\n"
         "Q - Для завершения работы.\n";
     char entrypoint;
     cin >> entrypoint;
@@ -19,21 +40,21 @@ static void menu()
         switch (entrypoint)
         {
         case '1':
-            FunctionalHelper().index();
+            index(includedDb);
             break;
         case '2':
-            FunctionalHelper().addClient();
+            addClient();
             break;
         case '3':
-            FunctionalHelper().search();
+            search();
             break;
         case '4':
-            FunctionalHelper().remove();
+            remove();
             break;
         default:
             break;
         }
-        cout << "Для продолжения введите числа 1-5, введите Q - Для завершения работы.\n";
+        cout << "Для продолжения введите числа 1-4, введите Q - Для завершения работы.\n";
         cin >> entrypoint;
     }
 }
