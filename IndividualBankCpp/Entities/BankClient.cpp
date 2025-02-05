@@ -1,5 +1,6 @@
-﻿#include "BankClient.h"
+#include "BankClient.h"
 #include <iostream>
+#include <ostream>
 using namespace std;
 
 // dummy constructor
@@ -23,8 +24,14 @@ BankClient::BankClient(int id, std::string lastName, std::string firstName, std:
 
 void BankClient::print() const
 {
-    setlocale(LC_ALL, "ru-RU"); // NOLINT(cert-err33-c, concurrency-mt-unsafe)
-    cout << id << ". Name: " << lastName + " " + firstName + " " + patronymic +
-        " Address: " + address + " Phone: " + phone + " Account: " +
-        account + " Card: " << card + '\n';
+    wcout << id << L". ФИО: ";
+    cout << lastName << " " << firstName << " " << patronymic;
+    wcout << L" Адрес: ";
+    cout << address;
+    wcout << L" Телефон: ";
+    cout << phone;
+    wcout << L" Номер счёта: ";
+    cout << account;
+    wcout << L" Номер карты: ";
+    cout << card << '\n';
 }
