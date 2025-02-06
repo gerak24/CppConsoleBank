@@ -43,13 +43,13 @@ void menu()
             index(includedDb);
             break;
         case '2':
-            includedDb.push_back(addClient(includedDb.size())); // NOLINT(clang-diagnostic-shorten-64-to-32)
+            includedDb.push_back(addClient(includedDb[includedDb.size()-1].id+1)); // NOLINT(clang-diagnostic-shorten-64-to-32)
             break;
         case '3':
             search();
             break;
         case '4':
-            remove();
+            includedDb = remove(includedDb);
             break;
         default:
             break;

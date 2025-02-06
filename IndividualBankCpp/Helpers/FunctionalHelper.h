@@ -4,7 +4,7 @@
 #include "../Entities/BankClient.h"
 using namespace std;  // NOLINT(clang-diagnostic-header-hygiene)
 
-BankClient addClient(int id);
-void index(vector<BankClient> );
+BankClient addClient(int);
+void index(vector<BankClient>);
 void search();
-void remove();
+vector<BankClient>  remove(vector<BankClient>);
