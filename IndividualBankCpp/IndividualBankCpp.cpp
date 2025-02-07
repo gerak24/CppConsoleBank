@@ -32,6 +32,7 @@ void menu()
         "2 - Для добавления нового клиента.\n"
         "3 - Для поиска клиента по критерию.\n"
         "4 - Для удаления клиента.\n"
+        "5 - Для очистки базы.\n"
         "Q - Для завершения работы.\n";
     char entrypoint;
     cin >> entrypoint;
@@ -46,15 +47,18 @@ void menu()
             includedDb.push_back(addClient(includedDb[includedDb.size()-1].id+1)); // NOLINT(clang-diagnostic-shorten-64-to-32)
             break;
         case '3':
-            search();
+            search(includedDb);
             break;
         case '4':
             includedDb = remove(includedDb);
             break;
+        case '5':
+            includedDb.clear();
+            break;
         default:
             break;
         }
-        cout << "Для продолжения введите числа 1-4, введите Q - Для завершения работы.\n";
+        cout << "Для продолжения введите числа 1-5, введите Q - Для завершения работы.\n";
         cin >> entrypoint;
     }
 }
