@@ -5,10 +5,13 @@
 #include "../Exceptions/FileProblemException.h"
 using namespace std;
 
-void read(string path)
+vector<BankClient> read(string path)
 
 {
     ifstream file(path);
+    vector<BankClient> clients;
+    const char* const delimeters = ", ";
+    char* next_token = NULL;
     string line;
     try
     {
@@ -16,16 +19,24 @@ void read(string path)
         {
             while (getline(file, line))
             {
-                cout << line << '\n';
+                vector<std::string> words;
+                const char* token = strtok_s(const_cast<char*>(line.data()), delimeters, &next_token);
+                while (token != nullptr)
+                {
+                    words.push_back(token);
+                    token = strtok_s(nullptr, delimeters, &next_token);
+                }
+                clients.emplace_back(stoi(words[0]), words[1], words[2], words[3], words[4], words[5],
+                                     words[6], words[7]);
             }
+            file.close();
         }
     }
-    catch (exception& e)
+    catch (exception& e) // NOLINT(clang-diagnostic-unused-exception-parameter)
     {
-        throw fileProblemException("Произошла проблема, при чтении файла: ");
+        throw fileProblemException("Произошла проблема, при чтении файла: " + string(e.what()));
     }
-
-    file.close();
+    return clients;
 }
 
 void write(string path, vector<BankClient> list)
@@ -36,14 +47,16 @@ void write(string path, vector<BankClient> list)
         out.open(path);
         if (out.is_open())
         {
-            out << "Салам алекум" << '\n';
+            for (const auto& i : list)
+                out << i.id << " " << i.lastName << " " << i.firstName << " " << i.patronymic << " " << i.address << " "
+                    << i.phone << " " << i.account << " " << i.card << '\n';
         }
         out.close();
         wcout << L"Данные записаны в файл" << '\n';
     }
-    catch (exception& e)
+    catch (exception& e) // NOLINT(clang-diagnostic-unused-exception-parameter)
     {
-        throw fileProblemException("Произошла проблема, при записи в файл: ");
+        throw fileProblemException("Произошла проблема, при записи в файл: " + string(e.what()));
     }
 }
 
@@ -60,9 +73,8 @@ void clearFile(string path)
         out.close();
         wcout << L"Файл очищен" << '\n';
     }
-    catch (exception& e)
+    catch (exception& e) // NOLINT(clang-diagnostic-unused-exception-parameter)
     {
-        throw fileProblemException("Произошла проблема, при работе с файлом: ");
+        throw fileProblemException("Произошла проблема, при работе с файлом: " + string(e.what()));
     }
-  
 }

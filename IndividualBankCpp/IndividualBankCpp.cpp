@@ -57,7 +57,7 @@ void menu()
         case '2':
             try
             {
-            includedDb.push_back(addClient(includedDb[includedDb.size() - 1].id + 1));
+                includedDb.push_back(addClient(includedDb[includedDb.size() - 1].id + 1));
             }
             catch (exception& ex) // NOLINT(misc-throw-by-value-catch-by-reference)
             {
@@ -94,7 +94,7 @@ void menu()
         case '7':
             try
             {
-                read("BankDb.txt");
+                includedDb = read("BankDb.txt");
             }
             catch (fileProblemException& ex) // NOLINT(misc-throw-by-value-catch-by-reference)
             {
