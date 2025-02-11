@@ -10,7 +10,7 @@ vector<BankClient> read(string path)
 {
     ifstream file(path);
     vector<BankClient> clients;
-    const char* const delimeters = ", ";
+    const char* const delimeters = ";";
     char* next_token = NULL;
     string line;
     try
@@ -36,6 +36,7 @@ vector<BankClient> read(string path)
     {
         throw fileProblemException("Произошла проблема, при чтении файла: " + string(e.what()));
     }
+    wcout << L"Данные считаны из файла" << '\n';
     return clients;
 }
 
@@ -48,8 +49,8 @@ void write(string path, vector<BankClient> list)
         if (out.is_open())
         {
             for (const auto& i : list)
-                out << i.id << " " << i.lastName << " " << i.firstName << " " << i.patronymic << " " << i.address << " "
-                    << i.phone << " " << i.account << " " << i.card << '\n';
+                out << i.id << ";" << i.lastName << ";" << i.firstName << ";" << i.patronymic << ";" << i.address << ";"
+                    << i.phone << ";" << i.account << ";" << i.card << '\n';
         }
         out.close();
         wcout << L"Данные записаны в файл" << '\n';
