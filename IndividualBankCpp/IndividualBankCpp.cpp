@@ -1,8 +1,12 @@
 #include <clocale>
 #include <iostream>
 #include <vector>
+
 #include "Helpers/FunctionalHelper.h"
+#include "Helpers/FileDriveHelper.h"
 #include "Entities/BankClient.h"
+#include "Exceptions/EntityNotFoundException.h"
+#include "Exceptions/FileProblemException.h"
 using namespace std;
 
 BankClient initClients[5]
@@ -13,10 +17,10 @@ BankClient initClients[5]
                "87654321", "890987654321"),
     BankClient(2, "Никифоров", "Никифор", "Никифорович", "Ул. Пушкина 1/3", "+77777777777",
                "12121212", "123123123123"),
-    BankClient(3, "Апраксимов", "Никифор", "Никифорович", "Ул. Пушкина 1/3", "+77777777777",
-               "12121212", "123123123123"),
-    BankClient(4, "Богданов", "Артём", "Никитович", "Ул. Пушкина 1/3", "+77777777777",
-               "12121212", "123123123123")
+    BankClient(3, "Апраксимов", "Никифор", "Никифорович", "Ул. Пушкина 1/3", "+76666666666",
+               "12344321", "123456654321"),
+    BankClient(4, "Богданов", "Артём", "Никитович", "Ул. Пушкина 1/3", "+75555555555",
+               "43211234", "654321123456")
 };
 vector<BankClient> includedDb;
 void menu();
@@ -37,6 +41,9 @@ void menu()
         "4 - Для поиска клиента по критерию.\n"
         "5 - Для удаления клиента.\n"
         "6 - Для очистки базы.\n"
+        "7 - Считать базу из файла.\n"
+        "8 - Записать базу в файл.\n"
+        "9 - Для очистки файла.\n"
         "Q - Для завершения работы.\n";
     char entrypoint;
     cin >> entrypoint;
@@ -48,26 +55,76 @@ void menu()
             index(includedDb);
             break;
         case '2':
+            try
+            {
             includedDb.push_back(addClient(includedDb[includedDb.size() - 1].id + 1));
+            }
+            catch (exception& ex) // NOLINT(misc-throw-by-value-catch-by-reference)
+            {
+                cout << ex.what() << '\n';
+            }
         // NOLINT(clang-diagnostic-shorten-64-to-32)
             break;
         case '3':
             includedDb = dbsort(includedDb);
-            index(includedDb);
             break;
         case '4':
-            search(includedDb);
+            try
+            {
+                search(includedDb);
+            }
+            catch (entityNotFoundException& ex) // NOLINT(misc-throw-by-value-catch-by-reference)
+            {
+                cout << ex.what() << '\n';
+            }
             break;
         case '5':
-            includedDb = remove(includedDb);
+            try
+            {
+                includedDb = remove(includedDb);
+            }
+            catch (entityNotFoundException& ex) // NOLINT(misc-throw-by-value-catch-by-reference)
+            {
+                cout << ex.what() << '\n';
+            }
             break;
         case '6':
             includedDb.clear();
             break;
+        case '7':
+            try
+            {
+                read("BankDb.txt");
+            }
+            catch (fileProblemException& ex) // NOLINT(misc-throw-by-value-catch-by-reference)
+            {
+                cout << ex.what() << '\n';
+            }
+            break;
+        case '8':
+            try
+            {
+                write("BankDb.txt", includedDb);
+            }
+            catch (fileProblemException& ex) // NOLINT(misc-throw-by-value-catch-by-reference)
+            {
+                cout << ex.what() << '\n';
+            }
+            break;
+        case '9':
+            try
+            {
+                clearFile("BankDb.txt");
+            }
+            catch (fileProblemException& ex) // NOLINT(misc-throw-by-value-catch-by-reference)
+            {
+                cout << ex.what() << '\n';
+            }
+            break;
         default:
             break;
         }
-        cout << "Для продолжения введите числа 1-6, введите Q - Для завершения работы.\n";
+        cout << "Для продолжения введите числа 1-9, введите Q - Для завершения работы.\n";
         cin >> entrypoint;
     }
 }

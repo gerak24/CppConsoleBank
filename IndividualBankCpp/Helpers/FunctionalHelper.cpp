@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "../Entities/BankClient.h"
+#include "../Exceptions/EntityNotFoundException.h"
 using namespace std;
 
 static bool isnum(const string&);
@@ -50,22 +51,25 @@ vector<BankClient> dbsort(vector<BankClient> list)
     char entrypoint;
     wcout << L"Введите: 1 для сортировки ФИО по алфавиту\n2 для сортировки по номеру\n\"Q\" для отмены:" << '\n';
     cin >> entrypoint;
-    while (entrypoint != 'Q' && !isdigit(entrypoint))
+    while (true)
     {
-        wcout << L"Введите: 1 для сортировки ФИО по алфавиту'\n' 2 для сортировки по номеру '\n' \"Q\" для отмены:" << '\n';
+        switch (entrypoint)
+        {
+        case '1':
+            sort(begin(list), end(list), nameCompare);
+            index(list);
+            return list;
+        case '2':
+            sorted = idQuickSort(list, 0, int(list.size()) - 1);
+            index(sorted);
+            return sorted;
+        case 'Q':
+            return list;
+        default:
+            break;
+        }
+        wcout << L"Введите: 1 для сортировки ФИО по алфавиту\n2 для сортировки по номеру\n\"Q\" для отмены:" << '\n';
         cin >> entrypoint;
-    }
-    if (entrypoint == 'Q')
-        return list;
-    switch (entrypoint)
-    {
-    case '1':
-        sort(begin(list), end(list), nameCompare);
-        return list;
-    case '2':
-        return idQuickSort(list, 0, int(list.size()) - 1);
-    default:
-        throw exception("Неверно указано число");
     }
 }
 
@@ -76,31 +80,30 @@ void search(vector<BankClient> list)
     char entrypoint;
     wcout << L"Введите 1 для поиска по ФИО, 2 для поиска по номеру телефона \"Q\" для отмены:" << '\n';
     cin >> entrypoint;
-    while (entrypoint != 'Q' && !isdigit(entrypoint))
+    while (true)
     {
+        switch (entrypoint)
+        {
+        case '1':
+            wcout << L"Введите ФИО или его часть, для поиска клиентов:" << '\n';
+            cin >> filter;
+            found = findByName(list, filter);
+            for (const auto& i : found)
+                i.print();
+            break;
+        case '2':
+            wcout << L"Введите номер телефона или его часть, для поиска клиентов:" << '\n';
+            cin >> filter;
+            found = findByPhone(list, filter);
+            for (const auto& i : found)
+                i.print();
+            break;
+        case 'Q': return;
+        default:
+            wcout << L"Указан неверный аргумент, используйте символы, описанные в меню";
+        }
         wcout << L"Введите 1 для поиска по ФИО, 2 для поиска по номеру телефона \"Q\" для отмены:" << '\n';
         cin >> entrypoint;
-    }
-    if (entrypoint == 'Q')
-        return;
-    switch (entrypoint)
-    {
-    case '1':
-        wcout << L"Введите ФИО или его часть, для поиска клиентов:" << '\n';
-        cin >> filter;
-        found = findByName(list, filter);
-        for (const auto& i : found)
-            i.print();
-        break;
-    case '2':
-        wcout << L"Введите номер телефона или его часть, для поиска клиентов:" << '\n';
-        cin >> filter;
-        found = findByPhone(list, filter);
-        for (const auto& i : found)
-            i.print();
-        break;
-    default:
-        throw exception("Неверно указано число");
     }
 }
 
@@ -121,9 +124,9 @@ vector<BankClient> remove(vector<BankClient> list)
         int index = findById(list, num);
         list.erase(list.cbegin() + index);
     }
-    catch (const exception& e)
+    catch (const entityNotFoundException& e) // NOLINT(clang-diagnostic-unused-exception-parameter)
     {
-        cout << e.what() << '\n';
+        throw;
     }
 
     return list;
@@ -149,7 +152,7 @@ static int findById(vector<BankClient> list, int id)
         if (list[i].id == id)
             return i;
     }
-    throw exception("Клиент с указанным номером не найден");
+    throw entityNotFoundException("Клиент с указанным номером не найден");
 }
 
 vector<BankClient> findByName(vector<BankClient> list, string name)
@@ -162,7 +165,7 @@ vector<BankClient> findByName(vector<BankClient> list, string name)
             filtered.push_back(i);
     }
     if (filtered.empty())
-        throw exception("Клиентов с ФИО, содержащим указанную строку не найдено");
+        throw entityNotFoundException("Клиентов с ФИО, содержащим указанную строку не найдено");
     return filtered;
 }
 
@@ -175,7 +178,7 @@ vector<BankClient> findByPhone(vector<BankClient> list, string phone)
             filtered.push_back(i);
     }
     if (filtered.empty())
-        throw exception("Клиентов с указанным номеров телефона не найдено");
+        throw entityNotFoundException("Клиентов с указанным номеров телефона не найдено");
     return filtered;
 }
 

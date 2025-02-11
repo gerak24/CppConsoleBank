@@ -4,22 +4,28 @@
 using namespace std;
 
 // dummy constructor
-BankClient::BankClient()
-= default;
+BankClient::BankClient() = default;
 
 // parameterized constructor
 
 BankClient::BankClient(int id, std::string lastName, std::string firstName, std::string patronymic,
                        std::string address, std::string phone, std::string card, std::string account)
 {
-    this->id = id;
-    this->lastName = lastName;
-    this->firstName = firstName;
-    this->patronymic = patronymic;
-    this->address = address;
-    this->phone = phone;
-    this->card = card;
-    this->account = account;
+    if (!phone.empty() || phone.size() > 12)
+    {
+        this->id = id;
+        this->lastName = lastName;
+        this->firstName = firstName;
+        this->patronymic = patronymic;
+        this->address = address;
+        this->phone = phone;
+        this->card = card;
+        this->account = account;
+    }
+    else
+    {
+        throw exception("Некорректно указан номер телефона клиента");
+    }
 }
 
 void BankClient::print() const

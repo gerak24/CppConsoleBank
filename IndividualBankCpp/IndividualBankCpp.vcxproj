@@ -155,6 +155,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Entities\BankClient.cpp" />
+    <ClCompile Include="Exceptions\EntityNotFoundException.cpp" />
+    <ClCompile Include="Exceptions\FileProblemException.cpp" />
     <ClCompile Include="Helpers\FileDriveHelper.cpp" />
     <ClCompile Include="Helpers\FunctionalHelper.cpp">
       <RuntimeLibrary>MultiThreadedDebugDll</RuntimeLibrary>
@@ -234,6 +236,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Entities\BankClient.h" />
+    <ClInclude Include="Exceptions\EntityNotFoundException.h" />
+    <ClInclude Include="Exceptions\FileProblemException.h" />
     <ClInclude Include="Helpers\FileDriveHelper.h" />
     <ClInclude Include="Helpers\FunctionalHelper.h" />
   </ItemGroup>
