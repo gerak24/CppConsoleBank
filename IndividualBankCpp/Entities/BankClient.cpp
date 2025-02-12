@@ -8,8 +8,8 @@ BankClient::BankClient() = default;
 
 // parameterized constructor
 
-BankClient::BankClient(int id, std::string lastName, std::string firstName, std::string patronymic,
-                       std::string address, std::string phone, std::string card, std::string account)
+BankClient::BankClient(int id, string lastName, string firstName, string patronymic,
+                       string address, string phone, string card, string account)
 {
     if (!phone.empty() || phone.size() > 12)
     {

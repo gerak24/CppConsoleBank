@@ -1,19 +1,20 @@
 ﻿#pragma once
 #include <string>
+using namespace std;  // NOLINT(clang-diagnostic-header-hygiene)
 
 class BankClient
 {
 public:
     int id;
-    std::string lastName;
-    std::string firstName;
-    std::string patronymic;
-    std::string address;
-    std::string phone;
-    std::string card;
-    std::string account;
-    BankClient(int id, std::string lastName, std::string firstName, std::string patronymic, std::string address,
-               std::string phone, std::string card, std::string account);
+    string lastName;
+    string firstName;
+    string patronymic;
+    string address;
+    string phone;
+    string card;
+    string account;
+    BankClient(int id, string lastName, string firstName, string patronymic, string address,
+               string phone, string card, string account);
     BankClient();
     void print() const;
 };

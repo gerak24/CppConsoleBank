@@ -3,7 +3,6 @@
 #include <algorithm>
 #include <iostream>
 #include <ostream>
-#include <process.h>
 #include <vector>
 
 #include "../Entities/BankClient.h"
