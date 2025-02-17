@@ -1,11 +1,11 @@
 ﻿#pragma once
 #include <string>
-using namespace std;  // NOLINT(clang-diagnostic-header-hygiene, clang-diagnostic-warning)
+using namespace std;  // NOLINT(clang-diagnostic-header-hygiene)
 
 class fileProblemException : public exception
 {
 public:
-    fileProblemException(string& msg);
+    fileProblemException(string msg);
     string what();
 
 private:

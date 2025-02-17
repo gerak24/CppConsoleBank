@@ -1,5 +1,4 @@
 ﻿#include "EntityNotFoundException.h"
-
 #include <utility>
 using namespace std;
 

@@ -1,6 +1,8 @@
 ﻿#include "FileProblemException.h"
+#include <utility>
+using namespace std;
 
-fileProblemException::fileProblemException(string& msg): message{message}
+fileProblemException::fileProblemException(string msg): message{message}
 {
     message = move(msg);
 }
