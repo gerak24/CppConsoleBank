@@ -7,7 +7,6 @@ using namespace std;
 BankClient::BankClient() = default;
 
 // parameterized constructor
-
 BankClient::BankClient(int id, string lastName, string firstName, string patronymic,
                        string address, string phone, string card, string account)
 {

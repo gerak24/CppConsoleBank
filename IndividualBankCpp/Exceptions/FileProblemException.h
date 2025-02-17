@@ -1,17 +1,13 @@
 ﻿#pragma once
-#include <exception>
 #include <string>
+using namespace std;  // NOLINT(clang-diagnostic-header-hygiene, clang-diagnostic-warning)
 
-class fileProblemException : public std::exception
+class fileProblemException : public exception
 {
 public:
-    fileProblemException(const std::string& msg);
-
-    const char* what() const noexcept override
-    {
-        return message.c_str();
-    }
+    fileProblemException(string& msg);
+    string what();
 
 private:
-    std::string message;
+    string message;
 };

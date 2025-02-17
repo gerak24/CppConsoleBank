@@ -1,4 +1,14 @@
 ﻿#include "EntityNotFoundException.h"
 
-entityNotFoundException::entityNotFoundException(const std::string& msg): message{message}
-{}
+#include <utility>
+using namespace std;
+
+entityNotFoundException::entityNotFoundException(string msg): message{message}
+{
+    message = move(msg);
+}
+
+string entityNotFoundException::what()
+{
+    return message;
+}

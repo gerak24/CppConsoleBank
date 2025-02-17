@@ -43,7 +43,10 @@ BankClient addClient(const int id)
     getline(cin, client.account);
     wcout << L"Введите номер карты клиента" << '\n';
     getline(cin, client.card);
-    return client;
+    return {
+        client.id, client.lastName, client.firstName, client.patronymic, client.address, client.phone, client.card,
+        client.account
+    };
 }
 
 vector<BankClient> dbsort(vector<BankClient> list)
@@ -83,25 +86,32 @@ void search(vector<BankClient> list)
     cin >> entrypoint;
     while (true)
     {
-        switch (entrypoint)
+        try
         {
-        case '1':
-            wcout << L"Введите ФИО или его часть, для поиска клиентов:" << '\n';
-            cin >> filter;
-            found = findByName(list, filter);
-            for (const auto& i : found)
-                i.print();
-            break;
-        case '2':
-            wcout << L"Введите номер телефона или его часть, для поиска клиентов:" << '\n';
-            cin >> filter;
-            found = findByPhone(list, filter);
-            for (const auto& i : found)
-                i.print();
-            break;
-        case 'Q': return;
-        default:
-            wcout << L"Указан неверный аргумент, используйте символы, описанные в меню";
+            switch (entrypoint)
+            {
+            case '1':
+                wcout << L"Введите ФИО или его часть, для поиска клиентов:" << '\n';
+                cin >> filter;
+                found = findByName(list, filter);
+                for (const auto& i : found)
+                    i.print();
+                break;
+            case '2':
+                wcout << L"Введите номер телефона или его часть, для поиска клиентов:" << '\n';
+                cin >> filter;
+                found = findByPhone(list, filter);
+                for (const auto& i : found)
+                    i.print();
+                break;
+            case 'Q': return;
+            default:
+                wcout << L"Указан неверный аргумент, используйте символы, описанные в меню"<< '\n';
+            }
+        }
+        catch (entityNotFoundException&)
+        {
+            throw ;
         }
         wcout << L"Введите 1 для поиска по ФИО, 2 для поиска по номеру телефона \"Q\" для отмены:" << '\n';
         cin >> entrypoint;

@@ -1,16 +1,13 @@
 ﻿#pragma once
-#include <exception>
 #include <string>
+using namespace std;  // NOLINT(clang-diagnostic-header-hygiene)
 
-class entityNotFoundException :public std::exception
+class entityNotFoundException : public exception
 {
 public:
-    entityNotFoundException(const std::string & msg);
+    entityNotFoundException(string msg);
+    string what();
 
-    const char* what() const noexcept override
-    {
-        return message.c_str();
-    }
 private:
-    std::string message;
+    string message;
 };

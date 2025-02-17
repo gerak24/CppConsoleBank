@@ -73,7 +73,7 @@ void menu()
             {
                 search(includedDb);
             }
-            catch (entityNotFoundException& ex) // NOLINT(misc-throw-by-value-catch-by-reference)
+            catch (entityNotFoundException& ex) 
             {
                 cout << ex.what() << '\n';
             }
